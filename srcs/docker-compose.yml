@@ -1,0 +1,63 @@
+
+# the services part
+services:
+#nginx
+  nginx:
+    image: nginx:aben
+    depends_on:
+      - wordpress
+    container_name: nginx
+    build: ./requirements/nginx/
+    ports:
+      - "443:443"
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/html
+
+#mariadb
+  mariadb:
+    image: mariadb:aben
+    container_name: mariadb
+    build: ./requirements/mariadb/
+    env_file :
+      - .env
+    networks :
+      - inception
+    volumes:
+      - mariadb:/var/lib/mysql
+#wordpress
+  wordpress:
+    image: wordpress:aben
+    container_name: wordpress
+    build: ./requirements/wordpress/
+    depends_on:
+      - mariadb
+    env_file :
+      - .env
+    networks:
+      - inception
+    volumes:
+      - wordpress:/var/www/html
+
+#wordpress volume
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      device: /home/aben-nei/data/wordpress_volume
+      o: bind
+      type: none
+  mariadb:
+    name: mariadb
+    driver: local
+    driver_opts:
+      device: /home/aben-nei/data/mariadb_volume
+      o: bind
+      type: none
+
+# the networks part
+networks:
+  inception:
+    name: inception
