@@ -3,7 +3,7 @@
 services:
 #nginx
   nginx:
-    image: nginx:aben
+    image: nginx:user
     depends_on:
       - wordpress
     container_name: nginx
@@ -17,7 +17,7 @@ services:
 
 #mariadb
   mariadb:
-    image: mariadb:aben
+    image: mariadb:user
     container_name: mariadb
     build: ./requirements/mariadb/
     env_file :
@@ -28,7 +28,7 @@ services:
       - mariadb:/var/lib/mysql
 #wordpress
   wordpress:
-    image: wordpress:aben
+    image: wordpress:user
     container_name: wordpress
     build: ./requirements/wordpress/
     depends_on:
@@ -46,16 +46,18 @@ volumes:
     name: wordpress
     driver: local
     driver_opts:
-      device: /home/aben-nei/data/wordpress_volume
       o: bind
       type: none
+      device: /home/aben-nei/data/wordpress/
+
+#mariadb volume
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
-      device: /home/aben-nei/data/mariadb_volume
       o: bind
       type: none
+      device: /home/aben-nei/data/mariadb/
 
 # the networks part
 networks:

@@ -1,20 +1,5 @@
 #!/bin/bash
 
-MYSQL_DB=wordpress
-MYSQL_USER=aben-nei
-MYSQL_PASSWORD=pass123
-DB_HOST=mariadb
-WP_TITLE=INCEPTION_OF_THINGS
-WP_ADMIN_N=admin
-WP_ADMIN_P=admin
-WP_ADMIN_E=admin@gmail.com
-WP_U_NAME=user
-WP_U_EMAIL=user@gmail.com
-WP_U_PASS=user
-WP_U_ROLE=author
-WP_URL=aben-nei.42.fr
-
-
 #---------------------------------------------------wp installation---------------------------------------------------#
 sleep 10
 # wp-cli installation
@@ -39,9 +24,10 @@ chown -R www-data:www-data /var/www/html;
 
 # download wordpress core files
 wp core download --allow-root
+rm /var/www/html/wp-config.php
 wp config create --dbname=$MYSQL_DB --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=$DB_HOST --allow-root
 # create wp-config.php file with database details
-# mv wp-config-sample.php wp-config.php
+# mv var/www/html/wp-config-sample.php var/www/html/wp-config.php
 # wp config set DB_HOST mariadb:3306 --allow-root
 # wp config set DB_NAME $MYSQL_DB --allow-root
 # wp config set DB_USER $MYSQL_USER --allow-root
