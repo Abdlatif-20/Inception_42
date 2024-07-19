@@ -32,7 +32,6 @@ services:
     build: ./requirements/wordpress/
     depends_on:
       - mariadb
-      - redis
     env_file :
       - .env
     networks:
@@ -59,13 +58,15 @@ services:
       - "8000:8000"
     networks:
       - inception
-#redis
-  redis:
-    image: redis
-    build: ./requirements/bonus/redis/
-    container_name: redis
+#portainer
+  portainer:
+    image: portainer
+    build: ./requirements/bonus/portainer/
+    container_name: portainer
     ports:
-      - "6379:6379"
+      - "6443:6443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - inception
 
