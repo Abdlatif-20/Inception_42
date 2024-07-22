@@ -5,9 +5,8 @@ FROM debian:bullseye
 RUN apt-get update && apt-get upgrade -y
 
 # install the required packages
-RUN apt-get install -y nano curl php php7.4-fpm php-mysql
+RUN apt-get install curl php php7.4-fpm php-mysql -y
 
-COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/.
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 

@@ -5,7 +5,7 @@ FROM debian:bullseye
 RUN apt-get update && apt-get upgrade -y
 
 # install the required packages
-RUN apt-get install -y wget php php7.4-fpm php-mysql
+RUN apt-get install -y wget php7.4-fpm php-mysql
 
 RUN mkdir -p /var/www/html/adminer
 
