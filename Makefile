@@ -1,20 +1,26 @@
-all: up
+WP_DIR = /home/aben-nei/data/wordpressVM/
+DB_DIR = /home/aben-nei/data/mariadbVM/
+
+all: create_dir up
+
+create_dir:
+	@sudo mkdir -p $(WP_DIR)
+	@sudo mkdir -p $(DB_DIR)
 
 up:
-	docker-compose -f srcs/docker-compose.yml up --build
+	@sudo docker-compose -f srcs/docker-compose.yml up --build -d
 
 down:
-	docker-compose -f srcs/docker-compose.yml down
+	@sudo docker-compose -f srcs/docker-compose.yml down
 
 stop:
-	docker-compose -f srcs/docker-compose.yml stop
+	@sudo docker-compose -f srcs/docker-compose.yml stop
 
-clean:
-	@docker system prune -af > /dev/null
-start:
-	docker-compose -f srcs/docker-compose.yml start
+clean: down
+	@sudo docker system prune -af --volumes > /dev/null
+	@sudo rm -rf $(WP_DIR)
+	@sudo rm -rf $(DB_DIR)
+
 
 status:
-	docker-compose -f srcs/docker-compose.yml ps
-
-re: down up
+	sudo docker-compose -f srcs/docker-compose.yml ps

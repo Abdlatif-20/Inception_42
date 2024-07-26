@@ -18,8 +18,7 @@ mariadb -e "GRANT ALL PRIVILEGES ON ${MYSQL_DB}.* TO \`${MYSQL_USER}\`@'%';"
 mariadb -e "FLUSH PRIVILEGES;"
 
 #--------------mariadb restart--------------#
-# Shutdown mariadb to restart with new config
+# # Shutdown mariadb to restart with new config
 mysqladmin -u root shutdown
 
-# Restart mariadb with new config in the background to keep the container running
-mysqld_safe --port=3306 --bind-address=0.0.0.0 --datadir='/var/lib/mysql'
+mysqld_safe

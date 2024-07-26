@@ -1,9 +1,8 @@
-
 # the services part
 services:
 #nginx
   nginx:
-    image: nginx:user
+    image: nginx
     depends_on:
       - wordpress
     container_name: nginx
@@ -17,7 +16,7 @@ services:
 
 #mariadb
   mariadb:
-    image: mariadb:user
+    image: mariadb
     container_name: mariadb
     build: ./requirements/mariadb/
     env_file :
@@ -28,7 +27,7 @@ services:
       - mariadb:/var/lib/mysql
 #wordpress
   wordpress:
-    image: wordpress:user
+    image: wordpress
     container_name: wordpress
     build: ./requirements/wordpress/
     depends_on:
@@ -40,24 +39,56 @@ services:
     volumes:
       - wordpress:/var/www/html
 
-#wordpress volume
+#adminer
+  adminer:
+    image: adminer
+    build: ./requirements/bonus/adminer/
+    container_name: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - inception
+
+#website
+  website:
+    image: website
+    build: ./requirements/bonus/website/
+    container_name: website
+    ports:
+      - "8000:8000"
+    networks:
+      - inception
+#portainer
+  portainer:
+    image: portainer
+    build: ./requirements/bonus/portainer/
+    container_name: portainer
+    ports:
+      - "6443:6443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - inception
+    env_file:
+      - .env
+
 volumes:
+#wordpress volume
   wordpress:
     name: wordpress
     driver: local
     driver_opts:
+      device: /home/aben-nei/data/wordpressVM
       o: bind
       type: none
-      device: /home/aben-nei/data/wordpress/
-
-#mariadb volume
+# mariadb volume
   mariadb:
     name: mariadb
     driver: local
     driver_opts:
+      device: /home/aben-nei/data/mariadbVM
       o: bind
       type: none
-      device: /home/aben-nei/data/mariadb/
 
 # the networks part
 networks:
